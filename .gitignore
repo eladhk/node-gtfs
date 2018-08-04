@@ -3,3 +3,8 @@ gtfs-downloads
 config*.json
 !config-sample.json
 test/fixture/tmp/*.txt
+.idea/misc.xml
+.idea/modules.xml
+.idea/node-gtfs.iml
+.idea/vcs.xml
+.idea/workspace.xml
