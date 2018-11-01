@@ -44,12 +44,13 @@ const setupImport = async () => {
   let config;
   try {
     config = await getConfig();
-  } catch (err) {
+  } catch (error) {
     console.error(new Error(`Cannot find configuration file at \`${argv.configPath}\`. Use config-sample.json as a starting point, pass --configPath option`));
-    handleError(err);
+    handleError(error);
   }
 
-  await mongoose.connect(config.mongoUrl);
+  mongoose.set('useCreateIndex', true);
+  await mongoose.connect(config.mongoUrl, {useNewUrlParser: true});
   await gtfs.import(config);
   await mongoose.connection.close();
   process.exit();

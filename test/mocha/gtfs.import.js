@@ -17,7 +17,7 @@ const models = require('../../models/models');
 
 const agenciesFixturesUrl = [{
   agency_key: 'caltrain',
-  url: 'http://transitfeeds.com/p/caltrain/122/latest/download'
+  url: 'http://transitfeeds.com/p/caltrain/122/20160406/download'
 }];
 
 const agenciesFixturesLocal = [{
@@ -27,7 +27,8 @@ const agenciesFixturesLocal = [{
 
 describe('lib/import.js', function () {
   before(async () => {
-    await mongoose.connect(config.mongoUrl);
+    mongoose.set('useCreateIndex', true);
+    await mongoose.connect(config.mongoUrl, {useNewUrlParser: true});
   });
 
   after(async () => {
@@ -94,7 +95,7 @@ describe('lib/import.js', function () {
 
     for (const model of models) {
       it(`should import the same number of ${model.filenameBase}`, done => {
-        model.model.collection.count((err, res) => {
+        model.model.collection.estimatedDocumentCount({}, (err, res) => {
           should.not.exist(err);
           res.should.equal(countData[model.filenameBase]);
           done();

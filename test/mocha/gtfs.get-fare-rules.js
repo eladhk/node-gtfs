@@ -20,7 +20,8 @@ config.agencies = agenciesFixtures;
 
 describe('gtfs.getFareRules():', () => {
   before(async () => {
-    await mongoose.connect(config.mongoUrl);
+    mongoose.set('useCreateIndex', true);
+    await mongoose.connect(config.mongoUrl, {useNewUrlParser: true});
     await mongoose.connection.db.dropDatabase();
     await gtfs.import(config);
   });

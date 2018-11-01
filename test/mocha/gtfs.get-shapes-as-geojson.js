@@ -18,7 +18,8 @@ config.agencies = agenciesFixtures;
 
 describe('gtfs.getShapesAsGeoJSON():', () => {
   before(async () => {
-    await mongoose.connect(config.mongoUrl);
+    mongoose.set('useCreateIndex', true);
+    await mongoose.connect(config.mongoUrl, {useNewUrlParser: true});
     await mongoose.connection.db.dropDatabase();
     await gtfs.import(config);
   });
@@ -82,6 +83,6 @@ describe('gtfs.getShapesAsGeoJSON():', () => {
 
     should.exist(geojson);
     geojson.type.should.equal('FeatureCollection');
-    geojson.features.length.should.be.above(1);
+    geojson.features.length.should.be.above(0);
   });
 });
